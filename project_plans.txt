@@ -1,0 +1,52 @@
+Project 1: 
+
+Real-Time RAG (Retrieval-Augmented Generation) Knowledge Engine
+The Concept: Build a system that ingests real-time data (like financial news, GitHub commits, or Reddit streams), processes it, generates vector embeddings on the fly, and serves an LLM that can answer questions based on the latest data.
+
+Why PBCs love it: It demonstrates you can handle the "M" and "AI" in AI Data Engineering. You are bridging traditional streaming data engineering with modern Generative AI infrastructure.
+
+The Open-Source Stack:
+
+Ingestion: Apache Kafka or Redpanda (simulating a live feed of articles/logs).
+
+Processing Engine: Apache Flink or Spark Structured Streaming. This is where you clean the data, chunk the text, and call a local embedding model.
+
+Storage (Lakehouse): Apache Iceberg or Delta Lake. Store the raw and cleaned text here to show you understand modern table formats and ACID compliance on data lakes.
+
+Vector Database: Milvus, Qdrant, or Weaviate (all have robust open-source versions).
+
+AI/Serving: FastAPI backend using LangChain or LlamaIndex to query the vector DB, augmented by a local LLM running via Ollama (e.g., Llama 3 or Mistral).
+
+Orchestration: Apache Airflow or Dagster (Dagster is particularly trendy right now for software-defined assets).
+
+The "Production-Ready" Flex: Implement a backfill script. Interviewers always ask, "What happens if the pipeline goes down for an hour?" Show how your orchestrator can reliably backfill missed events from Kafka into Iceberg and the Vector DB without creating duplicates.
+
+
+
+Project 2: 
+
+Predictive Maintenance Lakehouse with Automated ML Tracking
+
+The Concept: A high-throughput IoT pipeline that ingests sensor data from machinery or vehicles, builds a Bronze/Silver/Gold data architecture, and continuously trains and deploys a machine learning model to predict system failures.
+
+Why PBCs love it: This is the holy grail of traditional data engineering meeting ML Ops. It shows a deep grasp of state management, data quality, and model lifecycle tracking.
+
+The Open-Source Stack:
+
+Data Generation & Ingestion: Python script generating multi-sensor JSON data -> Apache Kafka.
+
+Processing (The Medallion Architecture): Apache Spark (PySpark).
+
+Bronze: Raw Kafka data dumped directly into an object store.
+
+Silver: Cleaned, deduplicated, and typed data stored in Apache Hudi or Iceberg.
+
+Gold: Aggregated features ready for ML training.
+
+ML Ops: MLflow. Use this to track your model training runs, hyperparameter tuning, and model versioning.
+
+Data Quality/Observability: Great Expectations. Run automated data quality checks before the data hits the Gold layer. If a sensor starts sending NULL values, the pipeline should flag it, not crash the ML model.
+
+Serving Engine: Trino (formerly Presto) to allow ad-hoc SQL querying directly over your Lakehouse tables.
+
+The "Production-Ready" Flex: Implement schema evolution. Show what happens when an IoT device suddenly adds a new sensor field. Your pipeline should seamlessly capture the new schema using Iceberg/Hudi without breaking the downstream ML training.
